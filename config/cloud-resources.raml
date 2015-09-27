@@ -1,0 +1,190 @@
+#%RAML 0.8
+title: Steroids Data
+mediaType: application/json
+baseUri: https://rest-api.appgyver.com/v1/
+
+traits:
+    - securedBySteroidsApiKey:
+        headers:
+          steroidsApiKey:
+            type: string
+            example: exampleapikey
+            default: 0a138c08f6a0a2fb6f423a1cb76843555047f986b9367e064f9d80b271ba63e5
+          steroidsAppId:
+            type: integer
+            example: 1234
+            default: 80181
+  
+
+resourceTypes:
+  - dolan_db_collection:
+      usage: This resourceType should be used for any collection of items
+      is: [ securedBySteroidsApiKey ]
+      get:
+        description: |
+          {
+            "action": "collection"
+          }
+        responses:
+          200:
+            description: |
+              {
+                "rootKey": "objects"
+              }
+            body:
+              application/json:
+                schema: <<resourcePathName>>_collection # e.g cars
+      post:
+        description: |
+          {
+            "action": "create",
+            "rootKey": "object"
+          }
+        body:
+          application/json:
+            schema: <<resourcePathName>>_member
+        responses:
+          200:
+            description: |
+              {
+                "rootKey": "object"
+              }
+            body:
+              application/json:
+                schema: <<resourcePathName>>_member # e.g. car
+
+  - dolan_db_member:
+      usage: This resourceType should be used for any built.io item
+      is: [ securedBySteroidsApiKey ]
+      get:
+        description: |
+          {
+            "action": "find"
+          }
+        responses:
+          200:
+            description: |
+              {
+                "rootKey": "object"
+              }
+            body:
+              application/json:
+                schema: <<resourcePathName>>_member # e.g. car
+      put:
+        description: |
+          {
+            "action": "update",
+            "rootKey": "object"
+          }
+        body:
+          application/json:
+            schema: <<resourcePathName>>_member
+        responses:
+          200:
+            description: |
+              {
+                "rootKey": "object"
+              }
+            body:
+              application/json:
+                schema: <<resourcePathName>>_member
+      delete:
+        description: |
+          {
+            "action": "destroy"
+          }
+        responses:
+          200:
+
+
+/twitterGlobalTrends:
+  description: |
+    {
+      "resourceName": "twitterGlobalTrends",
+      "identifierKey": "created_at"
+    }
+  get:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "collection"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","title":"twitterGlobalTrends collection","type":"array","items":{"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical twitterGlobalTrends representation","properties":{"trends":{"type":"array"},"as_of":{"type":"string"},"created_at":{"type":"string"},"locations":{"type":"array"}},"required":[]}}
+  
+  post:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "create"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical twitterGlobalTrends representation","properties":{"trends":{"type":"array"},"as_of":{"type":"string"},"created_at":{"type":"string"},"locations":{"type":"array"}},"required":[]}
+  
+
+  /{id}:
+    get:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "find"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical twitterGlobalTrends representation","properties":{"trends":{"type":"array"},"as_of":{"type":"string"},"created_at":{"type":"string"},"locations":{"type":"array"}},"required":[]}
+    
+    put:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "update"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical twitterGlobalTrends representation","properties":{"trends":{"type":"array"},"as_of":{"type":"string"},"created_at":{"type":"string"},"locations":{"type":"array"}},"required":[]}
+    
+    delete:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "destroy"
+        }
+    
+      responses:
+        200:
+
+

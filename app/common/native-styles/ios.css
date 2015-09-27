@@ -34,10 +34,10 @@ tab-bar tab-bar-item:selected {
   color: #1596f7;
 }
 
-tab-bar-item#settings {
-  background-image: url(icons/search.svg);
+tab-bar-item#trend {
+  background-image: url(icons/home.svg);
 }
 
-tab-bar-item#index {
-  background-image: url(icons/home.svg);
+tab-bar-item#search {
+  background-image: url(icons/search.svg);
 }

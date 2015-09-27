@@ -1,0 +1,23 @@
+<div ng-controller="IndexController">
+
+  <super-navbar>
+    <super-navbar-title>
+      Trending
+    </super-navbar-title>
+  </super-navbar>
+
+  <div class="padding">
+    <ul class="list" ng-hide="trends.length == 0">
+      <super-navigate ng-repeat="trend in trends[0]['trends']">
+        <li class="item item-icon-right">
+          <span ng-bind="trend['name']"></span>
+          <i class="icon super-ios-arrow-right"></i>
+        </li>
+      </super-navigate>
+    </ul>
+    <h4 ng-show="trends.length == 0" class="assertive padding">
+      No Trends found
+    </h4>
+  </div>
+
+</div>
