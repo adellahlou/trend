@@ -3,3 +3,18 @@
   text-align: center;
   font-weight: 600;
 }
+
+.news {
+	display: inline-block;
+  outline: 1px solid black;
+  margin: 4px;
+  padding: 0 10px;
+}
+
+.selected {
+	background: #00B5FF;
+}
+
+.selected h4 {
+	color: white;
+}
