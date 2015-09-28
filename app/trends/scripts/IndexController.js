@@ -12,4 +12,8 @@ angular
 		$scope.addNews = function (src) {
 			src.selected = !src.selected;
 		}
+		$scope.cancel = function () {
+			supersonic.logger.info("hi");
+			$scope.focus = false;
+		}
   });

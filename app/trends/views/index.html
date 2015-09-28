@@ -11,14 +11,17 @@
         <input type="text" placeholder="Search" ng-focus="focus=true">
       </label>
     </div>
-    <div ng-if="!focus">
+    <div ng-if="focus">
       <h4>Search From:</h4>
       <div class="news" ng-repeat="source in news" ng-class="{'selected': source.selected}" ng-click="addNews(source)">
         <h4>{{source.name}}</h4>
       </div>
-      <button class="button button-block button-outline button-positive">Submit</button>
+      <div class="button-bar">
+        <button class="button button-block button-outline button-calm">Submit</button> 
+        <button class="button button-block button-outline button-assertive" ng-click="cancel()">Cancel</button>
+      </div>
     </div>
-    <div ng-if="focus">
+    <div ng-if="!focus">
       <ul class="list card" ng-hide="trends.length == 0">
         <super-navigate ng-repeat="trend in trends[0]['trends']">
           <li class="item item-icon-right">
