@@ -19,3 +19,7 @@
 .selected h4 {
 	color: white;
 }
+
+#home h4 {
+  text-align: center;
+}

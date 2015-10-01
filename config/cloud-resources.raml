@@ -187,4 +187,96 @@ resourceTypes:
       responses:
         200:
 
+/twitterSearch:
+  description: |
+    {
+      "resourceName": "twitterSearch",
+      "identifierKey": "search"
+    }
+  post:
+    is: [ securedBySteroidsApiKey ]
+    description: |
+      {
+        "action": "create"
+      }
+  
+    responses:
+      200:
+        description: |
+          {
+          }
+  
+        body:
+          application/json:
+            schema: |
+              {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical twitterSearch representation","properties":{"statuses":{"type":"array"},"search_metadata":{"type":"object"},"search":{"type":"string"}},"required":[]}
+  
+
+  /pope:
+    get:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "collection"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","title":"twitterSearch collection","type":"array","items":{"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical twitterSearch representation","properties":{"statuses":{"type":"array"},"search_metadata":{"type":"object"},"search":{"type":"string"}},"required":[]}}
+    
+
+  /{id}:
+    get:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "find"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical twitterSearch representation","properties":{"statuses":{"type":"array"},"search_metadata":{"type":"object"},"search":{"type":"string"}},"required":[]}
+    
+    put:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "update"
+        }
+    
+      responses:
+        200:
+          description: |
+            {
+            }
+    
+          body:
+            application/json:
+              schema: |
+                {"$schema":"http://json-schema.org/schema","type":"object","description":"The canonical twitterSearch representation","properties":{"statuses":{"type":"array"},"search_metadata":{"type":"object"},"search":{"type":"string"}},"required":[]}
+    
+    delete:
+      is: [ securedBySteroidsApiKey ]
+      description: |
+        {
+          "action": "destroy"
+        }
+    
+      responses:
+        200:
+
 
