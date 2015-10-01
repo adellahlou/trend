@@ -9,11 +9,13 @@
   border: 1px solid black;
   margin: 4px;
   padding: 0 10px;
+  opacity: 0.2;
 }
 
 .selected {
 	background: #00B5FF;
 	border-color: #00B5FF;
+  opacity: 1;
 }
 
 .selected h4 {
