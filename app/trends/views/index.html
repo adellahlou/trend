@@ -4,7 +4,7 @@
     <super-navbar-title>Trend</super-navbar-title>
   </super-navbar>
 
-  <div class="padding">
+  <div class="padding" ng-init="init()">
     <div class="list list-inset">
       <label class="item item-input">
         <i class="icon super-search placeholder-icon"></i>
@@ -24,7 +24,7 @@
     <div ng-if="!focus" id="home">
       <h4>Top</h4>
       <ul class="list card" ng-hide="trends.length == 0">
-        <super-navigate ng-repeat="trend in trends[0]['trends']" view-id="posts">
+        <super-navigate ng-repeat="trend in trends" view-id="posts">
           <li class="item item-icon-right">
             <span ng-bind="trend['name']"></span>
             <i class="icon super-ios-arrow-right"></i>
