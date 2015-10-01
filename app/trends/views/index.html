@@ -12,7 +12,7 @@
       </label>
     </div>
     <div ng-if="focus">
-      <h4>Search From:</h4>
+      <h4>Select Sources:</h4>
       <div class="news" ng-repeat="source in news" ng-class="{'selected': source.selected}" ng-click="addNews(source)">
         <h4>{{source.name}}</h4>
       </div>
@@ -22,7 +22,7 @@
       <button class="button button-block button-outline button-assertive" ng-click="cancel()">Cancel</button>
     </div>
     <div ng-if="!focus" id="home">
-      <h4>Top</h4>
+      <h4>Top Trends</h4>
       <ul class="list card" ng-hide="trends.length == 0">
         <super-navigate ng-repeat="trend in trends" view-id="posts">
           <li class="item item-icon-right">
