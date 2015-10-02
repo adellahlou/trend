@@ -12,16 +12,73 @@
   opacity: 0.2;
 }
 
-.selected {
-	background: #00B5FF;
-	border-color: #00B5FF;
+/*.selected {
+	background: #7B0099;
+	border-color: #7B0099;
+  opacity: 1;
+}*/
+
+.selected h4 {
+  color: white;
+}
+
+.Reddit {
+  background: #ff5700;
+  border-color: #ff5700;
   opacity: 1;
 }
 
-.selected h4 {
-	color: white;
+.Twitter {
+  background: #00aced;
+  border-color: #00aced;
+  opacity: 1;
+}
+
+.Buzzfeed {
+  background: #C52812;
+  border-color: #C52812;
+  opacity: 1;
+}
+
+.GAG {
+  background: #000000;
+  border-color: #000000;
+  opacity: 1;
+}
+
+.Facebook {
+  background: #3b5998;
+  border-color: #3b5998;
+  opacity: 1;
+}
+
+.Google {
+  background: #008744;
+  border-color: #008744;
+  opacity: 1;
+}
+
+.NYT {
+  background: #000000;
+  border-color: #000000;
+  opacity: 1;
+}
+
+.Yahoo{
+  background: #7B0099;
+  border-color: #7B0099;
+  opacity: 1;
 }
 
 #home h4 {
   text-align: center;
 }
+
+/*Facebook: #3b5998;
+Google: #008744;
+Buzzfeed: #C52812;
+Twitter: #00aced;
+9gag: #000000;
+reddit: #ff5700;
+yahoo: #7B0099;
+NYT: #000000;

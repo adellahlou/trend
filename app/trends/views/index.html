@@ -13,7 +13,7 @@
     </div>
     <div ng-if="focus">
       <h4>Select Sources:</h4>
-      <div class="news" ng-repeat="source in news" ng-class="{'selected': source.selected}" ng-click="addNews(source)">
+      <div class="news" ng-repeat="source in news" ng-class="{ {{source.name}}: source.selected, 'selected': source.selected}" ng-click="addNews(source)">
         <h4>{{source.name}}</h4>
       </div>
       <super-navigate view-id="posts">

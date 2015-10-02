@@ -7,7 +7,7 @@ angular
 			console.log(data);
 			$scope.trends = data.data[0].trends;
     });
-    $scope.news = ["Reddit","Twitter","Buzzfeed","9GAG","Facebook","New York Times", "Google","Yahoo"].map(function(item){return {"name":item, "selected": false}});
+    $scope.news = ["Reddit","Twitter","Buzzfeed","9GAG","Facebook","Google","New York Times","Yahoo"].map(function(item){return {"name":item, "selected": false}});
 		$scope.addNews = function (src) {
 			src.selected = !src.selected;
 		}
