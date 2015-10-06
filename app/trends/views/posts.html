@@ -1,7 +1,23 @@
 <div ng-controller="PostController">
-  <div class="card" ng-repeat="post in posts">
+  <div class="card" ng-repeat="post in twitter">
     <div class="item item-text-wrap">
       <p>{{post.text}}</p>
     </div>
+  </div>
+  <div class="list card" ng-repeat="post in nineGag">
+
+    <div class="item item-divider">
+      <h2>{{post.title}}</h2>
+    </div>
+
+    <div class="item item-body">
+      <img class="full-image" src="{{post.image}}">
+      <a href="{{post.url}}">{{post.url}}</a>
+      <!-- <p>
+        <a href="#" class="subdued">1 Like</a>
+        <a href="#" class="subdued">5 Comments</a>
+      </p> -->
+    </div>
+
   </div>
 </div>

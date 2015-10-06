@@ -7,7 +7,7 @@ angular
 				$scope.trends = data.data[0].trends;
 	    });
     // initialize the news sources with their properties for css and selection set at a default.
-    $scope.news = ["Reddit","Twitter","Buzzfeed","9GAG","Facebook","Google","Yahoo","New York Times"].map(function(item){
+    $scope.news = ["Twitter","9GAG"].map(function(item){
     	if (item == "9GAG") {
     		return {"name": item, "css": "GAG", "selected": false}
     	} else if (item == "New York Times") {
@@ -16,6 +16,7 @@ angular
 	    	return {"name": item, "css": item, "selected": false}
 	    }
     });
+    // ["Reddit","Twitter","Buzzfeed","9GAG","Facebook","Google","Yahoo","New York Times"]
     // function for adding news source to search function
 		$scope.addNews = function (src) {
 			src.selected = !src.selected;
@@ -24,24 +25,31 @@ angular
 		$scope.find = function (ev) {
 			var name = ev.split("#");
 			if (name.length == 2){
-				var url = "http://secret-mesa-1979.herokuapp.com/twitter/search/" + encodeURI(name[1]);
+				var search = encodeURI(name[1]);
 			} else {
-				var url = "http://secret-mesa-1979.herokuapp.com/twitter/search/" + encodeURI(name[0]);
+				var search = encodeURI(name[0]);
 			}
+			var url = "http://secret-mesa-1979.herokuapp.com/twitter/search/" + search;
 			$http.get(url)
 				.then(function(data){
-					sendMessage(data);
+					var posts = data["data"]["statuses"].slice(0,10);			
+					localStorage.setItem("twitter", JSON.stringify(posts));
+					nineGag(search);
 				});
 		}
 		// Will return to trends home-view.
 		$scope.cancel = function () {
 			$scope.focus = false;
 		}
-		// function executed after data has been returned from find search.
-		function sendMessage(data){
-			var posts = data["data"]["statuses"].slice(0,10);			
-			localStorage.setItem("posts", JSON.stringify(posts));
-		  var view = new supersonic.ui.View("trends#posts");
-		  supersonic.ui.layers.push(view);
+		// Get results from google end point of api
+		function nineGag(search){
+			var url = "http://secret-mesa-1979.herokuapp.com/nineGag/search/" + search;
+			$http.get(url)
+				.then(function(data){
+					var posts = data["data"]["result"];
+					localStorage.setItem("nineGag", JSON.stringify(posts));
+				  var view = new supersonic.ui.View("trends#posts");
+				  supersonic.ui.layers.push(view);
+				});
 		}
   });
