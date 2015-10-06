@@ -3,33 +3,39 @@
   <super-navbar>
     <super-navbar-title>Trend</super-navbar-title>
   </super-navbar>
-
-  <div class="padding" ng-init="init()">
-    <div class="list list-inset">
-      <label class="item item-input">
-        <i class="icon super-search placeholder-icon"></i>
-        <input type="text" placeholder="Search" ng-focus="focus=true">
-      </label>
-    </div>
+  <!-- Search Bar -->
+  <div class="bar bar-header item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon super-ios-search placeholder-icon"></i>
+      <!-- When focused home view is hidden and search view is shown -->
+      <input type="search" ng-model="search" placeholder="Search" ng-focus="focus=true">
+    </label>
+    <!-- If search bar is not focused then cancel button not shown -->
+    <button class="button button-clear" ng-if="focus" ng-click="cancel()">
+      Cancel
+    </button>
+  </div>
+  <div class="padding">
     <div ng-if="focus">
       <h4>Select Sources:</h4>
-      <div class="news" ng-repeat="source in news" ng-class="{ {{source.name}}: source.selected, 'selected': source.selected}" ng-click="addNews(source)">
+      <!-- Repeats the array of news sources-->
+      <div class="news" ng-repeat="source in news" ng-class="{ {{source.css}}: source.selected, 'selected': source.selected}" ng-click="addNews(source)">
         <h4>{{source.name}}</h4>
+        <h4>{{source.num}}</h4>
       </div>
-      <super-navigate view-id="posts">
-        <button class="button button-block button-outline button-calm">Submit</button> 
-      </super-navigate>
-      <button class="button button-block button-outline button-assertive" ng-click="cancel()">Cancel</button>
+      <button ng-click="find(search)" class="button button-block button-outline button-calm">Submit</button>
     </div>
+    <!-- Home View -->
     <div ng-if="!focus" id="home">
       <h4>Top Trends</h4>
       <ul class="list card" ng-hide="trends.length == 0">
-        <super-navigate ng-repeat="trend in trends" view-id="posts">
+        <!-- Displays Top Trends in cards on repeat-->
+        <div ng-repeat="trend in trends" ng-click="find(trend['name'])">
           <li class="item item-icon-right">
             <span ng-bind="trend['name']"></span>
             <i class="icon super-ios-arrow-right"></i>
           </li>
-        </super-navigate>
+        </div>
       </ul>
       <h4 ng-show="trends.length == 0" class="assertive padding">No Trends found</h4>
     </div>
