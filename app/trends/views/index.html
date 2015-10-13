@@ -4,7 +4,8 @@
     <super-navbar-title>Trend</super-navbar-title>
   </super-navbar>
   <!-- Search Bar -->
-  <div class="bar bar-header item-input-inset">
+  <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
+  <div ng-hide="showSpinner" class="bar bar-header item-input-inset">
     <label class="item-input-wrapper">
       <i class="icon super-ios-search placeholder-icon"></i>
       <!-- When focused home view is hidden and search view is shown -->
@@ -15,7 +16,7 @@
       Cancel
     </button>
   </div>
-  <div class="padding">
+  <div class="padding" ng-hide="showSpinner">
     <div ng-if="focus">
       <h4>Select Sources:</h4>
       <!-- Repeats the array of news sources-->

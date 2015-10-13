@@ -58,9 +58,9 @@
   opacity: 1;
 }
 
-.NYT {
-  background: #000000;
-  border-color: #000000;
+.Bing {
+  background: rgb(248,185,50);
+  border-color: rgb(248,185,50);
   opacity: 1;
 }
 
@@ -70,10 +70,33 @@
   opacity: 1;
 }
 
+.card {
+  background: #008744 !important;
+}
+
 #home h4 {
   text-align: center;
 }
 
+.TwitterPost {
+  border: 1px solid #00aced;
+  margin-bottom: 5px;
+}
+
+.GAGPost {
+  border: 1px solid #000000;
+  margin-bottom: 5px;
+}
+
+.GooglePost {
+  border: 1px solid #008744;
+  margin-bottom: 5px;
+}
+
+.BingPost {
+  border: 1px solid rgb(248,185,50);
+  margin-bottom: 5px;
+}
 /*Facebook: #3b5998;
 Google: #008744;
 Buzzfeed: #C52812;

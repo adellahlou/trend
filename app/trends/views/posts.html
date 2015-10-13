@@ -1,23 +1,33 @@
 <div ng-controller="PostController">
-  <div class="card" ng-repeat="post in twitter">
+
+  <div class="card" ng-repeat="post in twitter" ng-click="twitterclick(post)" ng-if="twitter">
     <div class="item item-text-wrap">
+      <div class="TwitterPost"></div>
       <p>{{post.text}}</p>
     </div>
   </div>
-  <div class="list card" ng-repeat="post in nineGag">
 
-    <div class="item item-divider">
+  <div class="list card" ng-repeat="post in ninegag" ng-click="ninegagclick(post)" ng-if="ninegag">
+    <div class="item item-body">
+      <div class="GAGPost"></div>
+      <h2>{{post.title}}</h2>
+      <img src="{{post.image}}">
+    </div>
+  </div>
+
+  <div class="list card" ng-repeat="post in google" ng-click="googleclick(post)" ng-if="google">
+    <div class="item item-body">
+      <div class="GooglePost"></div>
       <h2>{{post.title}}</h2>
     </div>
-
-    <div class="item item-body">
-      <img class="full-image" src="{{post.image}}">
-      <a href="{{post.url}}">{{post.url}}</a>
-      <!-- <p>
-        <a href="#" class="subdued">1 Like</a>
-        <a href="#" class="subdued">5 Comments</a>
-      </p> -->
-    </div>
-
   </div>
+
+  <div class="list card" ng-repeat="post in bing" ng-click="googleclick(post)" ng-if="bing">
+    <div class="item item-body">
+      <div class="BingPost"></div>
+      <h2>{{post.title}}</h2>
+      <p>{{post.description}}</p>
+    </div>
+  </div>
+
 </div>
