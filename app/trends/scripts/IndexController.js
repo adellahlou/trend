@@ -23,46 +23,47 @@ angular
 		}
 		// ev is a search term. Function will split on # if it exists if not append search to url.
 		$scope.find = function (ev) {
-			if (typeof ev == 'undefined') {
+			if (typeof ev == 'undefined' || !ev.length) {
 				supersonic.ui.dialog.alert("Please enter a search");
-				throw new Error("No Search");
-			}
-			$scope.showSpinner = true;
-			var name = ev.split("#");
-			if (name.length == 2){
-				var search = encodeURI(name[1]);
 			} else {
-				var search = encodeURI(name[0]);
-			}
-			var url = "http://secret-mesa-1979.herokuapp.com/search";
-			if ($scope.focus) {
-				var request = {sites: "", search: search};
-				$scope.news.forEach(function(item){
-					if (item.name == "Twitter" && item.selected){
-						request.sites += "twitter,";
-					} else if (item.name == "Google" && item.selected){
-						request.sites += "google,";
-					} else if (item.name == "9GAG" && item.selected){
-						request.sites += "ninegag,";
-					} else if (item.name == "Bing" && item.selected){
-						request.sites += "bing,";
-					}
-				});
-				request.sites = request.sites.length ? request.sites.slice(0,request.sites.length - 1) : request.sites;
-				if (request.sites.length) {
-					supersonic.ui.dialog.alert("No sources selected");
-					throw new Error("No sources selected");
+				$scope.showSpinner = true;
+				var name = ev.split("#");
+				if (name.length == 2){
+					var search = encodeURI(name[1]);
+				} else {
+					var search = encodeURI(name[0]);
 				}
-			} else {
-				var request = {sites: "twitter,google,ninegag,bing", search: search};
-			}
-			$http.post(url, request)
-				.then(function(data){
-					localStorage.setItem("data", JSON.stringify(data.data));
+				var url = "http://secret-mesa-1979.herokuapp.com/search";
+				if ($scope.focus) {
+					var request = {sites: "", search: search};
+					$scope.news.forEach(function(item){
+						if (item.name == "Twitter" && item.selected){
+							request.sites += "twitter,";
+						} else if (item.name == "Google" && item.selected){
+							request.sites += "google,";
+						} else if (item.name == "9GAG" && item.selected){
+							request.sites += "ninegag,";
+						} else if (item.name == "Bing" && item.selected){
+							request.sites += "bing,";
+						}
+					});
+					request.sites = request.sites.length ? request.sites.slice(0,request.sites.length - 1) : request.sites;
+				} else {
+					var request = {sites: "twitter,google,ninegag,bing", search: search};
+				}
+				if (!request.sites.length) {
 					$scope.showSpinner = false;
-					var view = new supersonic.ui.View("trends#posts");
-				  supersonic.ui.layers.push(view);
-				});
+					supersonic.ui.dialog.alert("No sources selected");
+				} else {
+					$http.post(url, request)
+					.then(function(data){
+						localStorage.setItem("data", JSON.stringify(data.data));
+						$scope.showSpinner = false;
+						var view = new supersonic.ui.View("trends#posts");
+					  supersonic.ui.layers.push(view);
+					});
+				}
+			}
 		}
 		// Will return to trends home-view.
 		$scope.cancel = function () {
