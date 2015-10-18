@@ -57,7 +57,7 @@ angular
 		var ret = [];
 		for(key in siteKeys){
 			if(sites[key].selected)
-				ret.push(sites[key])''
+				ret.push(sites[key])
 		}
 
 		return ret;

@@ -1,6 +1,6 @@
 angular
   .module('trends', ['supersonic'])
-  .controller('IndexController', ['$scope', 'PreferencesService', 'RequestsService' function($scope, supersonic, PreferencesService, RequestsService) {
+  .controller('IndexController', ['$scope', 'PreferencesService', 'RequestsService', 'SourcesService' function($scope, supersonic, PreferencesService, RequestsService) {
 	  	//load user preferences and settings
 	  	$scope.promises = {};
 	  	intializeUsers();
@@ -55,7 +55,7 @@ angular
 				var request = {sites: SourcesService.getActiveSources().join(','), search: search};
 				//TODO: ASK PHILIP WHAT THIS DOES
 				request.sites = request.sites.length ? request.sites.slice(0,request.sites.length - 1) : request.sites;
-				
+
 				if (request.sites.length !== 0) {
 					var p = RequestsService.searchSites(url, request);
 
