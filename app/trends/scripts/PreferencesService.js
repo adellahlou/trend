@@ -2,6 +2,7 @@ angular
 	.module('trends', [])
 	.factory('PreferencesService', ['$http', '$q', function($http, $q){
 
+		console.log($q);
 		var settings = {};
 		var baseUrl = "http://secret-mesa-1979.herokuapp.com";
 

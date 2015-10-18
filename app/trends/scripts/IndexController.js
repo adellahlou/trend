@@ -1,123 +1,74 @@
 angular
   .module('trends', ['supersonic'])
   .controller('IndexController', ['$scope', 'PreferencesService', 'RequestsService' function($scope, supersonic, PreferencesService, RequestsService) {
-
 	  	//load user preferences and settings
 	  	$scope.promises = {};
 	  	intializeUsers();
-	  	initializeTrends();
-
 
 	    // function for adding news source to search function
 		$scope.addNews = SourcesService.toggleSource;
 
 		// Will return to trends home-view.
-		$scope.cancel = function () {
-			$scope.focus = false;
-		}
+		$scope.cancel = function () { $scope.focus = false; };
+		$scope.find = getNews;
 
-
-
-
-	  	function intializeUsers(){
-	  		$scope.promises.user = PreferencesService.loginAndGetPreferences({user: test123})
-	  		.then(function(user){
+		/**
+		*	Logs the user in, puts user into scope, loads the source preferences and trend
+		*/
+	  	function intializeUser(){
+	  		$scope.promises.user = PreferencesService.loginAndGetPreferences({userId: 123456789 });
+	  		$scope.promises.user.then(function(user){
 	  			$scope.user = user;
-	  			initializeTrends();
-	  		}, function(error){
-	  			alert(error);
-	  		});
+				SourcesService.setSelectedSources($scope.user.preferences.defaultSources);
+			    $scope.newsSources = SourcesService.getSources();
+	    	  	getTrends();
+			}, function(error) { 
+				supersonic.ui.dialog.alert(error); 
+			});
 	  	}
 	  	
-
-	  	function initializeTrends(){
-	  		// initializing trends 
-		  	RequestsService.getTrends($scope.user.preferences.trendPreferences)
-		  		.then(function(data){
-		  			$scope.trends = data; 
-		  		}, function(error){
-			  		alert(error);		
-		  		});
+	  	/**
+	  	*	Gets trends according to the users current preferences
+	  	*/
+	  	function getTrends(){
+		  	$scope.promises.trends = RequestsService.getTrends($scope.user.preferences.trendPreferences)
+		  	$scope.promises.trends
+		  		.then(function(data){ $scope.trends = data; }, 
+		  			  function(error){ supersonic.ui.dialog.alert(error);});
 	  	}
-
-			
-	    // initialize the news sources with their properties for css and selection set at a default.
-	    $scope.news = ["Twitter","9GAG","Bing","Google"].map(function(item){
-	    	if (item == "9GAG") {
-	    		return {"name": item, "css": "GAG", "selected": false}
-	    	} else if (item == "New York Times") {
-	    		return {"name": item, "css": "NYT", "selected": false}
-	    	}else {
-		    	return {"name": item, "css": item, "selected": false}
-		    }
-	    });
-
-
-		// ev is a search term. Function will split on # if it exists if not append search to url.
-		$scope.find = function (ev) {
+		
+	  	/**
+	  	* @param ev {String}  is the content of the search bar
+		*/
+		function getNews(ev) {
 			if (typeof ev == 'undefined' || !ev.length) {
 				supersonic.ui.dialog.alert("Please enter a search");
-			} else {
-				$scope.showSpinner = true;
-				var name = ev.split("#");
-				if (name.length == 2){
-					var search = encodeURI(name[1]);
-				} else {
-					var search = encodeURI(name[0]);
-				}
-				var url = "http://secret-mesa-1979.herokuapp.com/search";
-				if ($scope.focus) {
-					var request = {sites: "", search: search};
-					$scope.news.forEach(function(item){
-						if (item.name == "Twitter" && item.selected){
-							request.sites += "twitter,";
-						} else if (item.name == "Google" && item.selected){
-							request.sites += "google,";
-						} else if (item.name == "9GAG" && item.selected){
-							request.sites += "ninegag,";
-						} else if (item.name == "Bing" && item.selected){
-							request.sites += "bing,";
-						}
-					});
-					request.sites = request.sites.length ? request.sites.slice(0,request.sites.length - 1) : request.sites;
-				} else {
-					var request = {sites: "twitter,google,ninegag,bing", search: search};
-				}
-				if (!request.sites.length) {
-					$scope.showSpinner = false;
-					supersonic.ui.dialog.alert("No sources selected");
-				} else {
-					$http.post(url, request)
-					.then(function(data){
-						localStorage.setItem("data", JSON.stringify(data.data));
+				return;
+			}
+
+			//show spinner for async and clean search term
+			$scope.showSpinner = true;
+			var search = encodeURI(ev.replace('#', ''));
+
+			//check if we are on the search
+			if ($scope.focus) {
+				var request = {sites: SourcesService.getActiveSources().join(','), search: search};
+				//TODO: ASK PHILIP WHAT THIS DOES
+				request.sites = request.sites.length ? request.sites.slice(0,request.sites.length - 1) : request.sites;
+				
+				if (request.sites.length !== 0) {
+					var p = RequestsService.searchSites(url, request);
+
+					p.then(function(data) {
 						$scope.showSpinner = false;
 						var view = new supersonic.ui.View("trends#posts");
-					  supersonic.ui.layers.push(view);
-					});
+					  	supersonic.ui.layers.push(view);
+					}, function(error){ supersonic.ui.dialog.alert(error);});
+				} else {
+					$scope.showSpinner = false;
+					supersonic.ui.dialog.alert("No sources selected");
 				}
 			}
-		}
+		}//end getNews
 
   }]); // end controller
-	
-
-
-
-
-
-
-
-/*
-		function nineGag(search){
-			var url = "http://secret-mesa-1979.herokuapp.com/nineGag/search/" + search;
-			$http.get(url)
-			.then(function(data){
-				var posts = data["data"]["result"];
-				localStorage.setItem("nineGag", JSON.stringify(posts));
-				var view = new supersonic.ui.View("trends#posts");
-				supersonic.ui.layers.push(view);
-			});
-		}
-*/
-
-

@@ -32,8 +32,8 @@ angular
 		/**
 		*
 		*/
-		function searchSite(query, request){
-			if (listOfSites.length === 0)
+		function searchSites(request){
+			if (!request === 0)
 				return {};
 
 			var df = $q.defer();
