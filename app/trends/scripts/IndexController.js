@@ -5,8 +5,11 @@ angular
 .controller('IndexController', function($scope, supersonic, $http) {
   	initializeServices($http);
 
-  	 // initialize the news sources with their properties for css and selection set at a default.
+  	
+  	// initialize the news sources with their properties for css and selection set at a default.
     $scope.news = SourcesService.getSources();
+	PreferencesService.initialLogin('562476f714a9d126b4753835');
+
 
   	// Will return to trends home-view.
 	$scope.cancel = function () { $scope.focus = false; }
@@ -16,9 +19,10 @@ angular
 		.then(function(data){
 			$scope.trends = data.data[0].trends;
     });
+
 	// RequestsService.getTrends(function(data){ 
 	// 	$scope.trends = data.data[0].trends;
- //    });
+	//    });
    
 	// function for adding news source to search function
 	$scope.addNews = SourcesService.toggleSource;
@@ -57,7 +61,6 @@ angular
 
 function initializeServices($http){
 	PreferencesService = (function(){
-		var settings = {};
 		var user = {};
 		var baseUrl = "http://secret-mesa-1979.herokuapp.com";
 
@@ -82,10 +85,11 @@ function initializeServices($http){
 
 
 		function initialLogin(userid, cb){
-			loginAndGetPreferences(userdid, function(data){
-				console.log(data);
-				settings = data;
-				user = data;
+			loginAndGetPreferences(userid, function(data){
+				if(data.status === 200){
+					user = data.data;
+					console.log(user);
+				}
 			}).then(cb);
 		}	
 
@@ -126,6 +130,11 @@ function initializeServices($http){
 			$http.post(searchUrl, request)
 				.then(cb);
 		} // end searchSite
+
+		return {
+			searchSites : searchSites,
+			getTrends : getTrends
+		};
 	})();
 
 
