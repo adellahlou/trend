@@ -61,7 +61,6 @@ function initializeServices($http){
 		var user = {};
 		var baseUrl = "http://secret-mesa-1979.herokuapp.com";
 
-
 		function createUser(cb){
 			$http.post(baseUrl + '/users/')
 				.then(function(data){
@@ -69,7 +68,6 @@ function initializeServices($http){
 					cb();
 				});
 		}
-
 
 		function loginAndGetPreferences(userid, cb){
 			$http.get(baseUrl + '/users/' + userid)
