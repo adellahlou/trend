@@ -58,23 +58,43 @@ angular
 function initializeServices($http){
 	PreferencesService = (function(){
 		var settings = {};
+		var user = {};
 		var baseUrl = "http://secret-mesa-1979.herokuapp.com";
 
 
-		function loginAndGetPreferences(user, pass, cb){
-			$http.get(baseUrl + '/user/login')
+		function createUser(cb){
+			$http.post(baseUrl + '/users/')
+				.then(function(data){
+					user = data;
+					cb();
+				});
+		}
+
+
+		function loginAndGetPreferences(userid, cb){
+			$http.get(baseUrl + '/users/' + userid)
 				.then(cb);
 		}
 
 
 		function savePreferences(cb){
-			$http.get(baseUrl + '/user/save?' + settings.user.token)
+			$http.put(baseUrl + '/users/' + user.userid)
 				.then(cb)
 		}
 
+
+		function initialLogin(userid, cb){
+			loginAndGetPreferences(userdid, function(data){
+				console.log(data);
+				settings = data;
+				user = data;
+			}).then(cb);
+		}	
+
 		return {
 			loginAndGetPreferences : loginAndGetPreferences,
-			savePreferences : savePreferences
+			savePreferences : savePreferences,
+			initialLogin : initialLogin
 		};
 	})();
 
