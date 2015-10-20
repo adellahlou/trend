@@ -1,0 +1,18 @@
+<script>
+	document.addEventListener("touchmove", function(e){
+		e.preventDefault();
+	});
+</script>
+
+<div ng-controller="DrawerController">
+	<ul class="list">
+		<li class="item item-divider"> Trends Menu</li>
+		<li class="item" onclick="testFunc()">Home</li>
+		<li class="item" onclick="supersonic.ui.drawers.close()">My Profile</li>
+		<li class="item item-divider">Quick Searches</li>
+
+		<!-- <li class="item">Trends Preferences</li>
+		<li class="item">Subscriptions</li>
+		<li class="item">Search History</li> -->
+	</ul>
+</div>

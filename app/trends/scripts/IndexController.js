@@ -3,13 +3,26 @@ var PreferencesService, RequestsService, SourcesService;
 angular
 .module('trends', ['supersonic'])
 .controller('IndexController', function($scope, supersonic, $http) {
-  	initializeServices($http);
+  	initializeServices($http, supersonic);
+  	$scope.openDrawer = function(){ supersonic.ui.drawers.open('left');}
+  	$scope.testFunc = function(){
+  		console.log($scope);
+  		console.log($scope.RequestsService);
+  	};
+  	$scope.SourcesService = null;
+  	$scope.RequestsService = null;
+  	$scope.PreferencesService = null;
 
-  	
+  	supersonic.bind($scope, 'SourcesService');
+  	supersonic.bind($scope, 'RequestsService');
+  	supersonic.bind($scope, 'PreferencesService');
+
+  	$scope.SourcesService = PreferencesService;
+  	$scope.RequestsService = RequestsService;
+  	$scope.PreferencesService = SourcesService;
+
   	// initialize the news sources with their properties for css and selection set at a default.
     $scope.news = SourcesService.getSources();
-	PreferencesService.initialLogin('562476f714a9d126b4753835');
-
 
   	// Will return to trends home-view.
 	$scope.cancel = function () { $scope.focus = false; }
@@ -33,6 +46,8 @@ angular
 		if (typeof ev == 'undefined' || !ev.length) {
 			supersonic.ui.dialog.alert("Please enter a search");
 		} 
+
+		PreferencesService.initialLogin('562476f714a9d126b4753835');
 
 		$scope.showSpinner = true;
 		var search = ev.replace('#', '');
@@ -59,7 +74,7 @@ angular
 });
 
 
-function initializeServices($http){
+function initializeServices($http, supersonic){
 	PreferencesService = (function(){
 		var user = {};
 		var baseUrl = "http://secret-mesa-1979.herokuapp.com";

@@ -1,8 +1,13 @@
 <div ng-controller="IndexController">
 
   <super-navbar>
+    <super-navbar-button ng-click="openDrawer()">
+      <i class="ion-navicon-round">Menu</i>
+    </super-navbar-button>
     <super-navbar-title>Trend</super-navbar-title>
   </super-navbar>
+
+
   <!-- Search Bar -->
   <div ng-show="showSpinner" ng-include="'_spinner.html'"></div>
   <div ng-hide="showSpinner" class="bar bar-header item-input-inset">
@@ -16,6 +21,7 @@
       Cancel
     </button>
   </div>
+
   <div class="padding" ng-hide="showSpinner">
     <div ng-if="focus">
       <h4>Select Sources:</h4>
