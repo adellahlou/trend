@@ -1,21 +1,21 @@
 <div ng-controller="PostController">
 
-  <div class="card" ng-repeat="post in twitter" ng-click="twitterclick(post)" ng-if="twitter">
+  <!-- <div class="card" ng-repeat="post in twitter" ng-click="twitterclick(post)" ng-if="twitter">
     <div class="item item-text-wrap">
       <div class="TwitterPost"></div>
       <p>{{post.text}}</p>
     </div>
-  </div>
+  </div> -->
 
-  <div class="list card" ng-repeat="post in ninegag" ng-click="ninegagclick(post)" ng-if="ninegag">
+  <!-- <div class="list card" ng-repeat="post in ninegag" ng-click="ninegagclick(post)" ng-if="ninegag">
     <div class="item item-body">
       <div class="GAGPost"></div>
       <h2>{{post.title}}</h2>
       <img src="{{post.image}}">
     </div>
-  </div>
+  </div> -->
 
-  <div class="list card" ng-repeat="post in google" ng-click="googleclick(post)" ng-if="google">
+ <!--  <div class="list card" ng-repeat="post in google" ng-click="googleclick(post)" ng-if="google">
     <div class="item item-body">
       <div class="GooglePost"></div>
       <h2>{{post.title}}</h2>
@@ -27,6 +27,38 @@
       <div class="BingPost"></div>
       <h2>{{post.title}}</h2>
       <p>{{post.description}}</p>
+    </div>
+  </div>
+ -->
+  <button ng-click="print()">print</button>
+  <div ng-repeat="post in data">
+    <div class="card" ng-if="post.source == 'twitter'" ng-click="twitterclick(post)">
+      <div class="item item-text-wrap">
+        <div class="TwitterPost"></div>
+        <p>{{post.text}}</p>
+      </div>
+    </div>
+
+    <div class="card" ng-if="post.source == 'bing'" ng-click="googleclick(post)">
+      <div class="item item-body">
+      <div class="BingPost"></div>
+      <h2>{{post.title}}</h2>
+      <p>{{post.description}}</p>
+    </div>
+
+    <div class="card" ng-if="post.source == 'google'" ng-click="googleclick(post)">
+      <div class="item item-body">
+        <div class="GooglePost"></div>
+        <h2>{{post.title}}</h2>
+      </div>
+    </div>
+
+    <div class="card" ng-if="post.source == 'ninegag'" ng-click="ninegagclick(post)">
+      <div class="item item-body">
+        <div class="GAGPost"></div>
+        <h2>{{post.title}}</h2>
+        <img src="{{post.image}}">
+      </div>
     </div>
   </div>
 

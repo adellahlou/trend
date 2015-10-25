@@ -73,7 +73,7 @@ angular
 			supersonic.ui.dialog.alert("No sources selected");
 		} else {
 			searchSites(request, function(data){
-				parseData(data.data);
+				var posts = parseData(data.data);
 				localStorage.setItem("data", JSON.stringify(posts));
 				$scope.showSpinner = false;
 				var view = new supersonic.ui.View("trends#posts");
