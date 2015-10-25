@@ -73,7 +73,8 @@ angular
 			supersonic.ui.dialog.alert("No sources selected");
 		} else {
 			searchSites(request, function(data){
-				localStorage.setItem("data", JSON.stringify(data.data));
+				parseData(data.data);
+				localStorage.setItem("data", JSON.stringify(posts));
 				$scope.showSpinner = false;
 				var view = new supersonic.ui.View("trends#posts");
 				supersonic.ui.layers.push(view);
@@ -100,7 +101,32 @@ angular
 			.then(cb);
 	}
 	parseData = function (data) {
-
+		array = [];
+		if (data.bing) {
+			data.bing.forEach(function(data){
+				data.source = "bing";
+				array.push(data);
+			});
+		}
+		if (data.google) {
+			data.google.forEach(function(data){
+				data.source = "google";
+				array.push(data);
+			});
+		}
+		if (data.ninegag) {
+			data.ninegag.result.forEach(function(data){
+				data.source = "ninegag";
+				array.push(data);
+			});
+		} 
+		if (data.twitter) {
+			data.twitter.statuses.forEach(function(data){
+				data.source = "twitter";
+				array.push(data);
+			});
+		}
+		return array;
 	}
 });
 
