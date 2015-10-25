@@ -18,12 +18,6 @@
   opacity: 0.2;
 }
 
-/*.selected {
-	background: #7B0099;
-	border-color: #7B0099;
-  opacity: 1;
-}*/
-
 .selected h4 {
   color: white;
 }
@@ -40,13 +34,19 @@
   opacity: 1;
 }
 
+.npr {
+  background: rgb(221,85,58);
+  border-color: rgb(221,85,58);
+  opacity: 1;
+}
+
 .buzzfeed {
   background: #C52812;
   border-color: #C52812;
   opacity: 1;
 }
 
-.ningag {
+.ninegag {
   background: #000000;
   border-color: #000000;
   opacity: 1;
@@ -73,6 +73,12 @@
 .yahoo{
   background: #7B0099;
   border-color: #7B0099;
+  opacity: 1;
+}
+
+.nyt {
+  background: #000;
+  border-color: #000;
   opacity: 1;
 }
 

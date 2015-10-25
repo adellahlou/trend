@@ -1,45 +1,56 @@
-var PreferencesService, RequestsService, SourcesService;
-
 angular
 .module('trends', ['supersonic'])
 .controller('IndexController', function($scope, supersonic, $http) {
-  	initializeServices($http, supersonic);
-  	$scope.openDrawer = function(){ supersonic.ui.drawers.open('left');}
-  	$scope.testFunc = function(){
-  		console.log($scope);
-  		console.log($scope.RequestsService);
-  	};
-  	$scope.SourcesService = null;
-  	$scope.RequestsService = null;
-  	$scope.PreferencesService = null;
-
-  	supersonic.bind($scope, 'SourcesService');
-  	supersonic.bind($scope, 'RequestsService');
-  	supersonic.bind($scope, 'PreferencesService');
-
-  	$scope.SourcesService = PreferencesService;
-  	$scope.RequestsService = RequestsService;
-  	$scope.PreferencesService = SourcesService;
-
+  	// $scope.openDrawer = function(){ supersonic.ui.drawers.open('left');}
+  	// $scope.testFunc = function(){
+  	// 	console.log($scope);
+  	// 	console.log($scope.RequestsService);
+  	// };
+	var baseUrl = "http://secret-mesa-1979.herokuapp.com";
   	// initialize the news sources with their properties for css and selection set at a default.
-    $scope.news = SourcesService.getSources();
+    $scope.news = [
+		{
+			display : 'Twitter',
+			value : 'twitter',
+			selected : false,
+		},
+		{
+			display : 'Bing',
+			value : 'bing',
+			selected : false,
+		},
+		{
+			display : '9gag',
+			value : 'ninegag',
+			selected : false,
+		},
+		{
+			display : 'NPR',
+			value : 'npr',
+			selected : false,
+		},
+		{
+			display : 'NYT',
+			value : 'nyt',
+			selected : false,
+		},
+		{
+			display : 'Google',
+			value : 'google',
+			selected : false,
+		}
+	];
 
   	// Will return to trends home-view.
 	$scope.cancel = function () { $scope.focus = false; }
 
   	// initializing trends from twitter/trends
-	$http.get("http://secret-mesa-1979.herokuapp.com/twitter/trends")
-		.then(function(data){
-			$scope.trends = data.data[0].trends;
-    });
+	$http.get(baseUrl + '/twitter/trends/23424977').then(function(data){
+		$scope.trends = data.data[0].trends;
+	})
 
-	// RequestsService.getTrends(function(data){ 
-	// 	$scope.trends = data.data[0].trends;
-	//    });
-   
 	// function for adding news source to search function
-	$scope.addNews = SourcesService.toggleSource;
-
+	$scope.addNews = function(src){ src.selected = !src.selected; }
 
 	// ev is a search term. Function will split on # if it exists if not append search to url.
 	$scope.find = function (ev) {
@@ -47,13 +58,13 @@ angular
 			supersonic.ui.dialog.alert("Please enter a search");
 		} 
 
-		PreferencesService.initialLogin('562476f714a9d126b4753835');
+		// PreferencesService.initialLogin('562476f714a9d126b4753835');
 
 		$scope.showSpinner = true;
 		var search = ev.replace('#', '');
 		
 		if ($scope.focus) 
-			var request = {sites: SourcesService.getSelectedSources().join(','), search: search};
+			var request = {sites: getSelectedSources(), search: search};
 		else 
 			var request = {sites: "twitter,google,ninegag,bing", search: search};
 
@@ -61,175 +72,142 @@ angular
 			$scope.showSpinner = false;
 			supersonic.ui.dialog.alert("No sources selected");
 		} else {
-			RequestsService.searchSites(request, function(data){
+			searchSites(request, function(data){
 				localStorage.setItem("data", JSON.stringify(data.data));
 				$scope.showSpinner = false;
 				var view = new supersonic.ui.View("trends#posts");
-			  supersonic.ui.layers.push(view);
+				supersonic.ui.layers.push(view);
 			});
 		}
 	}
-	
-	
+
+	getSelectedSources = function () {
+		ret = [];
+		$scope.news.forEach(function(data){
+			if (data.selected) {
+				ret.push(data.value);
+			}
+		});
+		return ret.join(',');
+	}
+	searchSites = function (request, cb) {
+		if (!request === 0)
+			return {};
+
+		var searchUrl = baseUrl + '/search';
+
+		$http.post(searchUrl, request)
+			.then(cb);
+	}
+	parseData = function (data) {
+
+	}
 });
 
 
-function initializeServices($http, supersonic){
-	PreferencesService = (function(){
-		var user = {};
-		var baseUrl = "http://secret-mesa-1979.herokuapp.com";
+// function initializeServices($http, supersonic){
+// 	PreferencesService = (function(){
+// 		var user = {};
+// 		var baseUrl = "http://secret-mesa-1979.herokuapp.com";
 
-		function createUser(cb){
-			$http.post(baseUrl + '/users/')
-				.then(function(data){
-					user = data;
-					cb();
-				});
-		}
+// 		function createUser(cb){
+// 			$http.post(baseUrl + '/users/')
+// 				.then(function(data){
+// 					user = data;
+// 					cb();
+// 				});
+// 		}
 
-		function loginAndGetPreferences(userid, cb){
-			$http.get(baseUrl + '/users/' + userid)
-				.then(cb);
-		}
-
-
-		function savePreferences(cb){
-			$http.put(baseUrl + '/users/' + user.userid)
-				.then(cb)
-		}
+// 		function loginAndGetPreferences(userid, cb){
+// 			$http.get(baseUrl + '/users/' + userid)
+// 				.then(cb);
+// 		}
 
 
-		function initialLogin(userid, cb){
-			loginAndGetPreferences(userid, function(data){
-				if(data.status === 200){
-					user = data.data;
-					console.log(user);
-				}
-			}).then(cb);
-		}	
-
-		return {
-			loginAndGetPreferences : loginAndGetPreferences,
-			savePreferences : savePreferences,
-			initialLogin : initialLogin
-		};
-	})();
+// 		function savePreferences(cb){
+// 			$http.put(baseUrl + '/users/' + user.userid)
+// 				.then(cb)
+// 		}
 
 
-	RequestsService = (function(){
-		var baseUrl = "http://secret-mesa-1979.herokuapp.com";
+// 		function initialLogin(userid, cb){
+// 			loginAndGetPreferences(userid, function(data){
+// 				if(data.status === 200){
+// 					user = data.data;
+// 					console.log(user);
+// 				}
+// 			}).then(cb);
+// 		}	
 
-		/**
-		*
-		*/
-		function getTrends(request, cb){ 
-			// defaults to global trends
-			if (request){
-				var trendUrl = baseUrl + (request.default ?  '/twitter/trends' : '/search');
-
-				$http.get(trendUrl, request)
-				.then(cb)
-			}
-		}//end getTrends
-
-
-		/**
-		*
-		*/
-		function searchSites(request, cb){
-			if (!request === 0)
-				return {};
-
-			var searchUrl = baseUrl + '/search';
-
-			$http.post(searchUrl, request)
-				.then(cb);
-		} // end searchSite
-
-		return {
-			searchSites : searchSites,
-			getTrends : getTrends
-		};
-	})();
+// 		return {
+// 			loginAndGetPreferences : loginAndGetPreferences,
+// 			savePreferences : savePreferences,
+// 			initialLogin : initialLogin
+// 		};
+// 	})();
 
 
+// 	RequestsService = (function(){
+// 		var baseUrl = "http://secret-mesa-1979.herokuapp.com";
 
-	SourcesService = (function(){
-		//default values
-		var sites = {
-			twitter: {
-				display : 'Twitter',
-				value : 'twitter',
-				selected : false,
-			}, 
-			ninegag: {
-				display : '9gag',
-				value : 'ninegag',
-				selected : false,
-			}, 
-			nyt : {
-				display : 'NYT',
-				value : 'nyt',
-				selected : false,
-			} , 
-			bing : {
-				display : 'Bing',
-				value : 'bing',
-				selected : false,
-			}, 
-			google : {
-				display : 'Google',
-				value : 'google',
-				selected : false,
-			}, 
-			npr : {
-				display : 'NPR',
-				value : 'npr',
-				selected : false,
-			}
-		};
+// 		/**
+// 		*
+// 		*/
+// 		function getTrends(request, cb){ 
+// 			// defaults to global trends
+// 			if (request){
+// 				var trendUrl = baseUrl + (request.default ?  '/twitter/trends/23424977' : '/search');
+
+// 				$http.get(trendUrl, request)
+// 				.then(cb)
+// 			}
+// 		}//end getTrends
 
 
-		// function setSelectedSources(srcs){
-		// 	if(typeof srcs === 'object'){
+// 		/**
+// 		*
+// 		*/
+// 		function searchSites(request, cb){
+// 			if (!request === 0)
+// 				return {};
 
-		// 	} else if(typeof srcs ==='array')
-		// }
+// 			var searchUrl = baseUrl + '/search';
 
-		function toggleSource(src){
-			sites[src.value].selected = !sites[src.value].selected;
-		}
+// 			$http.post(searchUrl, request)
+// 				.then(cb);
+// 		} // end searchSite
 
-		function getSources(){
-			var siteKeys = Object.keys(sites);
-			var ret = [];
-			siteKeys.forEach(function(key){
-				ret.push(sites[key]);
-			})
+// 		return {
+// 			searchSites : searchSites,
+// 			getTrends : getTrends
+// 		};
+// 	})();
 
-			return ret;
-		}
 
-		function getSelectedSources(){
-			var siteKeys = Object.keys(sites);
-			var ret = [];
-			for(key in siteKeys){
-				if(sites[key].selected)
-					ret.push(sites[key].value);
-			}
 
-			return ret;
-		}
+// 	SourcesService = (function(){
+		 
 
-		return {
-			getSelectedSources : getSelectedSources,
-			getSources: getSources,
-			// setSelectedSources : setSelectedSources,
-			toggleSource : toggleSource
-		};
-	})();	
+// 		function getSelectedSources(){
+// 			var siteKeys = Object.keys(sites);
+// 			var ret = [];
+// 			for(key in siteKeys){
+// 				if(sites[key].selected)
+// 					ret.push(sites[key].value);
+// 			}
 
-};
+// 			return ret;
+// 		}
+
+// 		return {
+// 			getSelectedSources : getSelectedSources,
+// 			getSources: getSources,
+// 			// setSelectedSources : setSelectedSources,
+// 			toggleSource : toggleSource
+// 		};
+// 	})();	
+
+// };
 
 
 

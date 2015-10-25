@@ -1,5 +1,5 @@
 angular
-.module('trends', ['supersonic'])
+.module('trends')
 .controller('DrawerController',function($scope, supersonic){
 
 	$scope.testFunc = function(){

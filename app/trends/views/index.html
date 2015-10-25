@@ -17,7 +17,7 @@
       <input type="search" ng-model="search" placeholder="Search" ng-focus="focus=true">
     </label>
     <!-- If search bar is not focused then cancel button not shown -->
-    <button class="button button-clear" ng-if="focus" ng-click="focus=false">
+    <button class="button button-clear" ng-if="focus" ng-click="cancel()">
       Cancel
     </button>
   </div>
@@ -26,7 +26,7 @@
     <div ng-if="focus">
       <h4>Select Sources:</h4>
       <!-- Repeats the array of news sources-->
-      <div class="news" ng-repeat="source in news" ng-class="" ng-click="addNews(source)">
+      <div class="news" ng-repeat="source in news" ng-class="{ {{source.value}}: source.selected, 'selected': source.selected}" ng-click="addNews(source)">
         <h4>{{source.display}}</h4>
       </div>
       <button ng-click="find(search)" class="button button-block button-outline button-calm">Submit</button>
