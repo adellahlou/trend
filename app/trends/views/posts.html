@@ -30,7 +30,6 @@
     </div>
   </div>
  -->
-  <button ng-click="print()">print</button>
   <div ng-repeat="post in data">
     <div class="card" ng-if="post.source == 'twitter'" ng-click="twitterclick(post)">
       <div class="item item-text-wrap">
@@ -41,9 +40,10 @@
 
     <div class="card" ng-if="post.source == 'bing'" ng-click="googleclick(post)">
       <div class="item item-body">
-      <div class="BingPost"></div>
-      <h2>{{post.title}}</h2>
-      <p>{{post.description}}</p>
+        <div class="BingPost"></div>
+        <h2>{{post.title}}</h2>
+        <p>{{post.description}}</p>
+      </div>
     </div>
 
     <div class="card" ng-if="post.source == 'google'" ng-click="googleclick(post)">

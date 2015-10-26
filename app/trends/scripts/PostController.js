@@ -17,7 +17,4 @@ angular
   		var view = new supersonic.ui.View(post.link);
 		  supersonic.ui.layers.push(view);
   	}
-    $scope.print = function(){
-      console.log($scope.data);
-    }
   });
