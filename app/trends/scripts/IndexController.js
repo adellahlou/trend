@@ -82,6 +82,7 @@ angular
 		}
 	}
 
+	// pushes every selected source into a return array to query
 	getSelectedSources = function () {
 		ret = [];
 		$scope.news.forEach(function(data){
@@ -91,6 +92,8 @@ angular
 		});
 		return ret.join(',');
 	}
+
+	// send search request
 	searchSites = function (request, cb) {
 		if (!request === 0)
 			return {};
@@ -100,6 +103,8 @@ angular
 		$http.post(searchUrl, request)
 			.then(cb);
 	}
+
+	// this generalizes source information for displaying cards
 	parseData = function (data) {
 		array = [];
 		if (data.bing) {
