@@ -17,4 +17,10 @@ angular
   		var view = new supersonic.ui.View(post.link);
 		  supersonic.ui.layers.push(view);
   	}
+    $scope.orderByDate = function (post) {
+      if (post.date) {
+        var date = new Date(post.date);
+        return date;
+      }
+    }
   });

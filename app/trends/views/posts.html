@@ -30,7 +30,7 @@
     </div>
   </div>
  -->
-  <div ng-repeat="post in data">
+  <div ng-repeat="post in data | orderBy:orderByDate">
     <div class="card" ng-if="post.source == 'twitter'" ng-click="twitterclick(post)">
       <div class="item item-text-wrap">
         <div class="TwitterPost"></div>

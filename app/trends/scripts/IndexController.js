@@ -123,6 +123,7 @@ angular
 		if (data.twitter) {
 			data.twitter.statuses.forEach(function(data){
 				data.source = "twitter";
+				data.date = data.created_at;
 				array.push(data);
 			});
 		}
