@@ -1,11 +1,41 @@
 angular
 .module('trends', ['supersonic'])
 .controller('IndexController', function($scope, supersonic, $http) {
-  	// $scope.openDrawer = function(){ supersonic.ui.drawers.open('left');}
-  	// $scope.testFunc = function(){
-  	// 	console.log($scope);
-  	// 	console.log($scope.RequestsService);
-  	// };
+  	
+  	var options = {side: "left" };
+	supersonic.ui.drawers.init("trends#drawer", options);
+
+	var profileView = new supersonic.ui.View("trends#profile");
+
+  	$scope.openDrawer = function(){ 
+	    supersonic.ui.drawers.open("left").then( function() {
+        	// supersonic.logger.debug("Drawer was shown");
+	    });
+	};
+
+	$scope.drawerSub = supersonic.data.channel('drawer').subscribe(function(message, reply) {
+		message = message.split(':');
+		var type = message[0],
+			value = message[1];
+
+		console.log(type);
+		console.log(value);
+
+		switch(type) { 
+			case "home":
+				supersonic.ui.drawers.close('left');
+				break;
+			case "search":
+				break;
+			case "profile":
+				supersonic.ui.drawers.close('left');
+				supersonic.ui.modal.show(profileView, {animate: true});
+				break;
+		}
+
+		supersonic.ui.dialog.alert(message);
+	});
+
 	var baseUrl = "http://secret-mesa-1979.herokuapp.com";
   	// initialize the news sources with their properties for css and selection set at a default.
     $scope.news = [

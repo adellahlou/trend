@@ -1,18 +1,34 @@
-<div ng-controller="ProfileController">
-	
+<div ng-controller="ProfileController" ng-init="init()">
+<!-- <div> -->
+
 	<!-- Personal info section -->
-	<div class="card" id="personalInfo">
+	<div class="card assertive" id="personalInfo">
 		<div class="item item-divider">Personal Profile</div>
 		<div class="item item-text-wrap">
-			Text here
+			<div class="list">
+				<label class="item item-input item-select">
+					<div class="input-label">Age Group</div>
+					<select>
+						<option selected>Adult</option>
+						<option>Teenage</option>
+						<option>Family</option>
+					</select>
+				</label>
+				<div class="item">{{user.age}}</div>
+				<!-- <li class="item"></li> -->
+			</div>
 		</div>
 	</div>
 	
 	<!-- Trend Preferences section -->
 	<div class="card" id="trendInfo">
-		<div class="item item-divider">Trend Preferences/div>
+		<div class="item item-divider">Trend Preferences </div>
 		<div class="item item-text-wrap">
-			Text here
+			<div class="list">
+				<a class="item" ng-click="editTrendPreference()" ng-repeat="(key, value) in user.preferences.trendPreferences">
+					{{key}} <span class="item-note"> {{value}}</span>
+				</a>
+			</div>
 		</div>
 	</div>
 

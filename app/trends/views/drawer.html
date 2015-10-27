@@ -1,15 +1,21 @@
-<script>
-	document.addEventListener("touchmove", function(e){
-		e.preventDefault();
-	});
-</script>
+<!--
+// 	document.addEventListener("touchmove", function(e){
+// 		e.preventDefault();
+// 	});
+-->
 
 <div ng-controller="DrawerController">
+<!-- <div> -->
 	<ul class="list">
 		<li class="item item-divider"> Trends Menu</li>
-		<li class="item" onclick="testFunc()">Home</li>
-		<li class="item" onclick="supersonic.ui.drawers.close()">My Profile</li>
+		<li class="item" onclick="supersonic.data.channel('drawer').publish('home')">Home</li>
+		<li class="item">
+			<super-navigate location="trends#profile" onclick="supersonic.ui.drawers.close()">
+				My Profile
+			</super-navigate>
+		</li>
 		<li class="item item-divider">Quick Searches</li>
+		<!-- <li class="item" ng-click="tryPopup()">Test</li> -->
 
 		<!-- <li class="item">Trends Preferences</li>
 		<li class="item">Subscriptions</li>

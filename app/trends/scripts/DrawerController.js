@@ -1,21 +1,16 @@
 angular
 .module('trends')
-.controller('DrawerController',function($scope, supersonic){
+.controller('DrawerController', function($scope, supersonic){
 
-	$scope.testFunc = function(){
-  		console.log($scope);
-  		console.log($scope.RequestsService);
-  	};
-	// $scope.SourcesService = null;
-  	$scope.RequestsService = null;
-  	$scope.PreferencesService = null;
+	$scope.tryPopup = function(){
+		var options = {
+		  title: "Please type some text and click on the desired color",
+		  buttonLabels: ["Blue", "Red", "Yellow"],
+		  defaultText: "Type here"
+		};
 
-  	// supersonic.bind($scope, 'SourcesService');
-  	supersonic.bind($scope, 'RequestsService');
-  	supersonic.bind($scope, 'PreferencesService');
-
-  	supsersonic.logger.debug('instantiated DrawerController');
-
-  	
-	// var settingsModal = new supersonic.ui.View('trends#profile');
+		supersonic.ui.dialog.prompt("Colorize text", options).then(function(result) {
+		  supersonic.logger.log("User clicked button number " + result.buttonIndex + " with text " + result.input);
+		});
+	};
 });
