@@ -17,7 +17,14 @@
   padding: 0 10px;
   opacity: 0.2;
 }
-
+.sources {
+  display: inline-block;
+  background: rgba(0,0,0,.1);
+  padding: 0 30px;
+}
+.sources h4 {
+  color: white;
+}
 .selected h4 {
   color: white;
 }
@@ -115,12 +122,7 @@
   display: block;
   white-space: nowrap;
 }
-.sources {
-  display: inline-block;
-  border: 1px solid black;
-  padding: 0 30px;
-  opacity: 0.2;
-}
+
 /*Facebook: #3b5998;
 Google: #008744;
 Buzzfeed: #C52812;
