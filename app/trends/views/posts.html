@@ -8,14 +8,14 @@
   </div>
 
   <div ng-repeat="post in data | orderBy:orderByDate">
-    <div class="card" ng-if="post.source == 'twitter'" ng-click="twitterclick(post)">
+    <div class="card" ng-if="post.source == 'twitter' && post.visibility" ng-click="twitterclick(post)">
       <div class="item item-text-wrap">
         <div class="TwitterPost"></div>
         <p>{{post.text}}</p>
       </div>
     </div>
 
-    <div class="card" ng-if="post.source == 'bing'" ng-click="googleclick(post)">
+    <div class="card" ng-if="post.source == 'bing' && post.visibility" ng-click="googleclick(post)">
       <div class="item item-body">
         <div class="BingPost"></div>
         <h3>{{post.title}}</h3>
@@ -23,14 +23,14 @@
       </div>
     </div>
 
-    <div class="card" ng-if="post.source == 'google'" ng-click="googleclick(post)">
+    <div class="card" ng-if="post.source == 'google' && post.visibility" ng-click="googleclick(post)">
       <div class="item item-body">
         <div class="GooglePost"></div>
         <p>{{post.title}}</p>
       </div>
     </div>
 
-    <div class="card" ng-if="post.source == 'ninegag'" ng-click="ninegagclick(post)">
+    <div class="card" ng-if="post.source == 'ninegag' && post.visibility" ng-click="ninegagclick(post)">
       <div class="item item-body">
         <div class="GAGPost"></div>
         <h2>{{post.title}}</h2>

@@ -98,6 +98,7 @@ angular
 			var request = {sites: getSelectedSources(), search: search};
 		else 
 			var request = {sites: "twitter,google,ninegag,bing", search: search};
+			$scope.news.forEach(function(data){data.selected = true;});
 
 		if (!request.sites.length) {
 			$scope.showSpinner = false;
@@ -105,7 +106,7 @@ angular
 		} else {
 			searchSites(request, function(data){
 				var posts = parseData(data.data);
-				var data = [posts, $scope.news]
+				var data = [posts, $scope.news];
 				localStorage.setItem("data", JSON.stringify(data));
 				$scope.showSpinner = false;
 				var view = new supersonic.ui.View("trends#posts");
@@ -142,24 +143,28 @@ angular
 		if (data.bing) {
 			data.bing.forEach(function(data){
 				data.source = "bing";
+				data.visibility = true;
 				array.push(data);
 			});
 		}
 		if (data.google) {
 			data.google.forEach(function(data){
 				data.source = "google";
+				data.visibility = true;
 				array.push(data);
 			});
 		}
 		if (data.ninegag) {
 			data.ninegag.result.forEach(function(data){
 				data.source = "ninegag";
+				data.visibility = true;
 				array.push(data);
 			});
 		} 
 		if (data.twitter) {
 			data.twitter.statuses.forEach(function(data){
 				data.source = "twitter";
+				data.visibility = true;
 				data.date = data.created_at;
 				array.push(data);
 			});
