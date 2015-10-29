@@ -73,34 +73,53 @@ angular
 		$scope.userdata = userdata; 
 		supersonic.logger.debug(userdata);
 	});
- //  	// initializing trends from twitter/trends
-	// $http.get(baseUrl + '/twitter/trends/23424977').then(function(data){
-	// 	$scope.showSpinner = false;
-	// 	if(data.data)
-	// 		$scope.trends = data.data[0].trends;
-	// 	else 
-	// 		$scope.trends = [];
-	// })
+  	// initializing trends from twitter/trends
+	$http.get(baseUrl + '/twitter/trends/23424977').then(function(data){
+		$scope.showSpinner = false;
+		if(data.data)
+			$scope.trends = data.data[0].trends;
+		else 
+			$scope.trends = [];
+	})
 
 	// function for adding news source to search function
 	$scope.addNews = function(src){ src.selected = !src.selected; }
 
 	// ev is a search term. Function will split on # if it exists if not append search to url.
-	$scope.find = function (ev) {
+	$scope.find = function (ev, sites) {
 		if (typeof ev == 'undefined' || !ev.length) {
 			supersonic.ui.dialog.alert("Please enter a search");
 		} 
+
 
 		// PreferencesService.initialLogin('562476f714a9d126b4753835');
 
 		$scope.showSpinner = true;
 		var search = ev.replace('#', '');
-		
-		if ($scope.focus) 
-			var request = {sites: getSelectedSources(), search: search};
-		else 
-			var request = {sites: "twitter,google,ninegag,bing,reddit", search: search};
-			$scope.news.forEach(function(data){data.selected = true;});
+		var selectedSources;
+
+		if(sites !== undefined){
+			selectedSources = sites.join(',');
+			sites.forEach(function(site){
+				console.log(site);
+				$scope.news.forEach(function(source){
+					if (source.value == site)
+						source.selected = true;
+				});
+			});
+		} else{
+			if($scope.focus)
+				selectedSources = getSelectedSources();
+			else
+				selectedSources = "twitter,google,ninegag,bing,reddit";
+		}
+		var request = {sites: selectedSources, search : search};
+		// if ($scope.focus) 
+		// 	var request = {sites: getSelectedSources(), search: search};
+		// else 
+		// 	var request = {sites: "twitter,google,ninegag,bing,reddit", search: search};
+
+		// $scope.news.forEach(function(data){data.selected = true;});
 
 		if (!request.sites.length) {
 			$scope.showSpinner = false;
@@ -253,15 +272,25 @@ function loadDefaultUser() {
 	    "subscriptions": [],
 	    "preferences": {
 	        "trendPreferences": {
-	            "trump": [
+	            "cavaliers": [
+		            "bing",
+	                "google",
+	                "twitter"
+	            ], 
+	            "puppies": [
+	            	"reddit",
+	            	"ninegag",
+	                "twitter"
+	            ], 
+	            "republicans": [
 	                "ninegag"
 	            ],
-	            "pope": [
+	            "democrats": [
 	                "bing",
 	                "google",
 	                "ninegag",
 	                "twitter"
-	            ]
+	            ],
 	        },
 	        "searchHistory": []
 	    },

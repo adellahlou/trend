@@ -21,8 +21,15 @@
       Cancel
     </button>
   </div>
-
-  
+  <h4 class="padding">Quick Search Bar</h4>
+  <div class="row">
+    <div class="inline">
+      <div class="sources quick" ng-repeat="(key, value) in userdata.preferences.trendPreferences" ng-click="find(key, value)">
+        <h4 >{{key}}</h4>
+      </div>
+    </div>
+    <!-- <i class="icon super-ios-arrow-right"></i> -->
+  </div>
 
   <div class="padding" ng-hide="showSpinner">
     <div ng-if="focus">
