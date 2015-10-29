@@ -1,25 +1,24 @@
 angular
 .module('trends', ['supersonic'])
 .controller('IndexController', function($scope, supersonic, $http) {
-  	$scope.showSpinner = true;
-  	var options = {side: "left" };
-	supersonic.ui.drawers.init("trends#drawer", options);
-
+  	$scope.showSpinner = false;
+  	localStorage.removeItem('user');
 	var profileView = new supersonic.ui.View("trends#profile");
+	var prefs = PreferencesService();
 
+
+	supersonic.ui.drawers.init("trends#drawer", {side: "left" });
   	$scope.openDrawer = function(){ 
 	    supersonic.ui.drawers.open("left").then( function() {
-        	// supersonic.logger.debug("Drawer was shown");
 	    });
+	    prefs.logUser();
 	};
-
 	$scope.drawerSub = supersonic.data.channel('drawer').subscribe(function(message, reply) {
+		
 		message = message.split(':');
 		var type = message[0],
 			value = message[1];
 
-		console.log(type);
-		console.log(value);
 
 		switch(type) { 
 			case "home":
@@ -30,6 +29,8 @@ angular
 			case "profile":
 				supersonic.ui.drawers.close('left');
 				supersonic.ui.modal.show(profileView, {animate: true});
+				break;
+			default:
 				break;
 		}
 
@@ -73,12 +74,18 @@ angular
 
   	// Will return to trends home-view.
 	$scope.cancel = function () { $scope.focus = false; }
-
-  	// initializing trends from twitter/trends
-	$http.get(baseUrl + '/twitter/trends/23424977').then(function(data){
-		$scope.showSpinner = false;
-		$scope.trends = data.data[0].trends;
-	})
+	prefs.initialLogin(function(userdata){
+		$scope.userdata = userdata; 
+		supersonic.logger.debug(userdata);
+	});
+ //  	// initializing trends from twitter/trends
+	// $http.get(baseUrl + '/twitter/trends/23424977').then(function(data){
+	// 	$scope.showSpinner = false;
+	// 	if(data.data)
+	// 		$scope.trends = data.data[0].trends;
+	// 	else 
+	// 		$scope.trends = [];
+	// })
 
 	// function for adding news source to search function
 	$scope.addNews = function(src){ src.selected = !src.selected; }
@@ -171,49 +178,102 @@ angular
 		}
 		return array;
 	}
+
+	function PreferencesService(){
+		var user = {};
+		var bUrl = "http://secret-mesa-1979.herokuapp.com";
+
+		function createUser(cb){
+			$http.post(baseUrl + '/users/')
+				.then(function(userdata){
+					user = userdata;
+
+					localStorage.setItem('user', JSON.stringify(userdata));
+					cb(userdata);
+				});
+		}
+
+		function loginAndGetPreferences(userid, cb){
+			$http.get(bUrl + '/users/' + userid)
+				.then(function(userdata){
+					localStorage.setItem('user', JSON.stringify(userdata));
+					user = userdata;
+					cb(userdata);
+				});
+		}
+
+
+		function savePreferences(cb){
+			$http.put(baseUrl + '/users/' + user.userid)
+				.then(cb)
+		}
+
+
+		function initialLogin(cb){
+			user = localStorage.getItem('user');
+
+			if(user == undefined){
+				user = loadDefaultUser();
+				cb(user);
+				// createUser(function(userdata){
+				// 	localStorage.setItem('user', userdata);
+				// 	cb(userdata);
+				// });
+			}
+			else {
+				loginAndGetPreferences(luser.userid, cb);
+			}
+		}	
+
+		function logUser(){
+			console.log(user);
+		}
+
+		return {
+			loginAndGetPreferences : loginAndGetPreferences,
+			savePreferences : savePreferences,
+			initialLogin : initialLogin,
+			logUser : logUser
+		};
+	};
 });
+
+function loadDefaultUser() {
+	return {
+	    "_id": {
+	        "$oid": "fake"
+	    },
+	    "userid": {
+	        "$oid": "562476f714a9d126b4753835"
+	    },
+	    "age": 18,
+	    "subscriptions": [],
+	    "preferences": {
+	        "trendPreferences": {
+	            "trump": [
+	                "ninegag"
+	            ],
+	            "pope": [
+	                "bing",
+	                "google",
+	                "ninegag",
+	                "twitter"
+	            ]
+	        },
+	        "searchHistory": []
+	    },
+	    "lastLogin": {
+	        "$date": "2015-10-24T04:34:13.333Z"
+	    },
+	    "createdOn": {
+	        "$date": "2015-10-19T04:52:07.931Z"
+	    },
+	    "__v": 0
+	}
+}
 
 
 // function initializeServices($http, supersonic){
-// 	PreferencesService = (function(){
-// 		var user = {};
-// 		var baseUrl = "http://secret-mesa-1979.herokuapp.com";
-
-// 		function createUser(cb){
-// 			$http.post(baseUrl + '/users/')
-// 				.then(function(data){
-// 					user = data;
-// 					cb();
-// 				});
-// 		}
-
-// 		function loginAndGetPreferences(userid, cb){
-// 			$http.get(baseUrl + '/users/' + userid)
-// 				.then(cb);
-// 		}
-
-
-// 		function savePreferences(cb){
-// 			$http.put(baseUrl + '/users/' + user.userid)
-// 				.then(cb)
-// 		}
-
-
-// 		function initialLogin(userid, cb){
-// 			loginAndGetPreferences(userid, function(data){
-// 				if(data.status === 200){
-// 					user = data.data;
-// 					console.log(user);
-// 				}
-// 			}).then(cb);
-// 		}	
-
-// 		return {
-// 			loginAndGetPreferences : loginAndGetPreferences,
-// 			savePreferences : savePreferences,
-// 			initialLogin : initialLogin
-// 		};
-// 	})();
 
 
 // 	RequestsService = (function(){

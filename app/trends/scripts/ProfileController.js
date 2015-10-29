@@ -2,7 +2,7 @@ angular
 .module('trends')
 .controller('ProfileController', function($scope, supersonic) {
 	$scope.init = function () {
-		$scope.loadDefaultUser();
+		$scope.loadUser();
 	}
 	$scope.loadUser = function() {
 		$scope.user = JSON.parse(localStorage.getItem('user'));
@@ -10,10 +10,11 @@ angular
 		if(!$scope.user)
 			$scope.loadDefaultUser();
 	}
+
 	$scope.loadDefaultUser =  function() {
 		$scope.user = {
 		    "_id": {
-		        "$oid": "562476f714a9d126b4753836"
+		        "$oid": "fake"
 		    },
 		    "userid": {
 		        "$oid": "562476f714a9d126b4753835"
