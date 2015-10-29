@@ -37,6 +37,13 @@
         <img src="{{post.image}}">
       </div>
     </div>
+
+    <div class="card" ng-if="post.source == 'reddit' && post.visibility" ng-click="ninegagclick(post.data)">
+      <div class="item item-body">
+        <div class="RedditPost"></div>
+        <h2>{{post.data.title}}</h2>
+      </div>
+    </div>
   </div>
 
 </div>

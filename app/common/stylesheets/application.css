@@ -117,6 +117,11 @@
   border: 1px solid rgb(248,185,50);
   margin-bottom: 5px;
 }
+
+.RedditPost {
+  border: 1px solid #ff5700;
+  margin-bottom: 5px;
+}
 .inline {
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
