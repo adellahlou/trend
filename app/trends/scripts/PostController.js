@@ -4,9 +4,7 @@ angular
 	var data = JSON.parse(localStorage.getItem("data"));
 	$scope.data = data[0];
 	$scope.news = data[1];
-	$scope.hi = function () {
-		console.log($scope.news);
-	}
+	$scope.addNews = function(src){ src.selected = !src.selected; }
 	$scope.ninegagclick = function (post) {
 		var view = new supersonic.ui.View(post.url);
 	  supersonic.ui.layers.push(view);

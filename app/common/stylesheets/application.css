@@ -84,6 +84,7 @@
 
 .card {
   background: #008744 !important;
+  margin: 10px 10px;
 }
 
 #home h4 {
@@ -109,13 +110,15 @@
   border: 1px solid rgb(248,185,50);
   margin-bottom: 5px;
 }
-.row {
-  overflow-x: auto;
+.inline {
+  overflow-x: scroll;
+  display: block;
+  white-space: nowrap;
 }
 .sources {
   display: inline-block;
   border: 1px solid black;
-  padding: 0 10px;
+  padding: 0 30px;
   opacity: 0.2;
 }
 /*Facebook: #3b5998;

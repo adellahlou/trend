@@ -1,7 +1,9 @@
 <div ng-controller="PostController">
   <div class="row">
-    <div class="sources" ng-repeat="source in news" ng-class="{ {{source.value}}: source.selected, 'selected': source.selected}" ng-click="hi()">
-      <h4>{{source.display}}</h4>
+    <div class="inline">
+      <div class="sources" ng-repeat="source in news" ng-class="{ {{source.value}}: source.selected, 'selected': source.selected}" ng-click="addNews(source)">
+        <h4>{{source.display}}</h4>
+      </div>
     </div>
   </div>
 
