@@ -30,8 +30,8 @@ angular
 
 	$scope.orderByDate = function (post) {
 		if (post.date) {
-		  var date = new Date(post.date);
-		  return date;
+			var date = new Date(post.date);
+			return date;
 		}
 	};
 });

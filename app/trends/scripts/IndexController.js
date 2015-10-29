@@ -55,13 +55,8 @@ angular
 			selected : false,
 		},
 		{
-			display : 'NPR',
-			value : 'npr',
-			selected : false,
-		},
-		{
-			display : 'NYT',
-			value : 'nyt',
+			display : 'Reddit',
+			value : 'reddit',
 			selected : false,
 		},
 		{
@@ -97,7 +92,7 @@ angular
 		if ($scope.focus) 
 			var request = {sites: getSelectedSources(), search: search};
 		else 
-			var request = {sites: "twitter,google,ninegag,bing", search: search};
+			var request = {sites: "twitter,google,ninegag,bing,reddit", search: search};
 			$scope.news.forEach(function(data){data.selected = true;});
 
 		if (!request.sites.length) {
@@ -166,6 +161,14 @@ angular
 				data.source = "twitter";
 				data.visibility = true;
 				data.date = data.created_at;
+				array.push(data);
+			});
+		}
+		if (data.reddit) {
+			data.reddit.data.children.forEach(function(data){
+				data.source = "reddit";
+				data.visibility = true;
+				data.date = Date(data.data.created);
 				array.push(data);
 			});
 		}
