@@ -109,6 +109,15 @@
   border: 1px solid rgb(248,185,50);
   margin-bottom: 5px;
 }
+.row {
+  overflow-x: auto;
+}
+.sources {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 0 10px;
+  opacity: 0.2;
+}
 /*Facebook: #3b5998;
 Google: #008744;
 Buzzfeed: #C52812;

@@ -1,7 +1,7 @@
 angular
 .module('trends', ['supersonic'])
 .controller('IndexController', function($scope, supersonic, $http) {
-  	
+  	$scope.showSpinner = true;
   	var options = {side: "left" };
 	supersonic.ui.drawers.init("trends#drawer", options);
 
@@ -76,6 +76,7 @@ angular
 
   	// initializing trends from twitter/trends
 	$http.get(baseUrl + '/twitter/trends/23424977').then(function(data){
+		$scope.showSpinner = false;
 		$scope.trends = data.data[0].trends;
 	})
 
@@ -104,7 +105,8 @@ angular
 		} else {
 			searchSites(request, function(data){
 				var posts = parseData(data.data);
-				localStorage.setItem("data", JSON.stringify(posts));
+				var data = [posts, $scope.news]
+				localStorage.setItem("data", JSON.stringify(data));
 				$scope.showSpinner = false;
 				var view = new supersonic.ui.View("trends#posts");
 				supersonic.ui.layers.push(view);

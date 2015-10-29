@@ -1,9 +1,12 @@
 angular
 .module('trends')
 .controller('PostController', function($scope, supersonic) {
-	$scope.data = JSON.parse(localStorage.getItem("data"));
-  supersonic.logger.info($scope.data);
-
+	var data = JSON.parse(localStorage.getItem("data"));
+	$scope.data = data[0];
+	$scope.news = data[1];
+	$scope.hi = function () {
+		console.log($scope.news);
+	}
 	$scope.ninegagclick = function (post) {
 		var view = new supersonic.ui.View(post.url);
 	  supersonic.ui.layers.push(view);
