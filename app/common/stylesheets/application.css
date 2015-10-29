@@ -119,6 +119,7 @@
 }
 .inline {
   overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
   display: block;
   white-space: nowrap;
 }
