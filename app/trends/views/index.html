@@ -1,9 +1,9 @@
 <div ng-controller="IndexController">
 
   <super-navbar>
-    <super-navbar-button ng-click="openDrawer()">
+    <!-- <super-navbar-button ng-click="openDrawer()">
       <i class="ion-navicon-round">Menu</i>
-    </super-navbar-button>
+    </super-navbar-button> -->
     <super-navbar-title>Trend</super-navbar-title>
   </super-navbar>
 
@@ -21,8 +21,8 @@
       Cancel
     </button>
   </div>
-  <h4 class="padding">Quick Search Bar</h4>
-  <div class="row">
+  <h4 class="padding quicktitle" ng-hide="showSpinner">Quick Search Bar</h4>
+  <div class="row" ng-hide="showSpinner">
     <div class="inline">
       <div class="sources quick" ng-repeat="(key, value) in userdata.preferences.trendPreferences" ng-click="find(key, value)">
         <h4 >{{key}}</h4>

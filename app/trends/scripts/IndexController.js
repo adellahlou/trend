@@ -112,8 +112,10 @@ angular
 				selectedSources = getSelectedSources();
 			else
 				selectedSources = "twitter,google,ninegag,bing,reddit";
+				$scope.news.forEach(function(data){data.selected = true;});
 		}
 		var request = {sites: selectedSources, search : search};
+		$scope.userdata.preferences.trendPreferences[search] = ["twitter","google","ninegag","bing","reddit"];
 		// if ($scope.focus) 
 		// 	var request = {sites: getSelectedSources(), search: search};
 		// else 

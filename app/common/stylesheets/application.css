@@ -35,6 +35,9 @@
   background: #2980b9;
   border-color: black;
 }
+.quicktitle {
+  text-align: center;
+}
 .reddit {
   background: #ff5700;
   border-color: #ff5700;
